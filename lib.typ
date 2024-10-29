@@ -73,10 +73,10 @@
 #let abs(x) = {
   let complex_x = to_complex(x)
 
-  return calc.sqrt((
+  return calc.sqrt(
     calc.pow(complex_x.real, 2) +
     calc.pow(complex_x.imag, 2)
-  ))
+  )
 }
 
 #let eq(a, b) = {
@@ -103,7 +103,7 @@
     if a.imag == 0 and a.real > 0 {
       return complex(calc.pow(a.real, b.real), 0)
     } else if a.real == 0 { // If base is fully imaginary
-      let inter = calc.mod(calc.mod(b.real, 4) + 4, 4)
+      let inter = calc.rem(calc.rem(b.real, 4) + 4, 4)
       if inter == 0 {
         return complex(calc.pow(a.imag, b.real), 0)
       } else if inter == 1 {
@@ -121,7 +121,7 @@
   }
 
   let arg = calc.atan2(a.real, a.imag).rad()
-  let loh = calc.log(abs(a))
+  let loh = calc.log(abs(a), base: calc.e)
 
   let re = calc.exp(b.real * loh - b.imag * arg)
   let im = b.imag * loh + b.real * arg
