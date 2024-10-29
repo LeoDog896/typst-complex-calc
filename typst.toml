@@ -1,0 +1,7 @@
+[package]
+name = "complex-calc"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["Tristan Figueroa-Reid"]
+license = "MIT"
+description = "Basic non-floating calculations for complex numbers."
