@@ -1,19 +1,8 @@
-#import "@preview/valkyrie:0.2.1" as z
-
-#let complex_schema = z.dictionary(( real: z.number(), imag: z.number() ))
-#let number_like_schema = z.either(
-  z.either(z.number(), z.integer()),
-  z.either(z.floating-point(), z.string())
-)
-#let all_number_like_schema = z.either(
-  number_like_schema,
-  complex_schema
-)
-
 #let to_number(x) = {
-  // TODO: support decimal in valkyrie
   if type(x) == "decimal" { return x }
-  return z.parse(x, number_like_schema)
+  if type(x) == "float" { return x }
+  if type(x) == "integer" { return x }
+  assert(false, "Number must be either decimal, float, or integer.")
 }
 
 #let complex(real, imag) = (
@@ -22,12 +11,8 @@
 )
 
 #let to_complex(x) = {
-  let x_validated = z.parse(x, all_number_like_schema)
-  if type(x_validated) == "dictionary" {
-    return x
-  } else {
-    return complex(x, 0)
-  }
+  if type(x) == "dictionary" { return x }
+  return complex(to_number(x), 0)
 }
 
 #let add(a, b) = {
